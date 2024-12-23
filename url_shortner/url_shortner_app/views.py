@@ -47,5 +47,6 @@ def generate_short_code():
 def redirect_to_original_url(request,short_url):
     short_code=short_url.split('/')[-1]
     result=URL.objects.get(shortCode=short_code)
+    result.access_count=result.access_count + 1 if result.access_count else 1
     result.save()
     return redirect(result.url)
