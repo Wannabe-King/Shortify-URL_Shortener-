@@ -1,34 +1,57 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>URL Shortener</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    
-<div class ="heading" style="margin-top: 50px;">
-    <h1>   Welcome to URL Shortener </h1>
-        </div> 
-    <div class="container">
-        <h1>URL Shortener</h1>
-        <form action="{% url 'shorten_url' %}" method="POST">
-            {% csrf_token %}
-            <input type="url" name="orignal_url" placeholder="Enter URL to shorten" required>
-            <button type="submit">Shorten</button>
-        </form>
-        <form action="{% url 'show_stats' %}" method="POST">
-            {% csrf_token %}
-            <input type="url" name="short_url" placeholder="Enter URL to shorten" required>
-            <button type="submit">Show Stats of Shorten URL</button>
-        </form>
-        {% if short_url %}
-            <div class="shortened-url">
-                <p>Shortened URL: <a href="{{ short_url }}"target="_blank">{{ short_url }}</a></p>
-            </div>
-        {% endif %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  </head>
+  <body>
+    <div class="heading" style="margin-top: 50px">
+      <h1>Welcome to URL Shortener</h1>
     </div>
-</body>
+    <div class="container">
+      <h1>URL Shortener</h1>
+      <form action="{% url 'shorten_url' %}" method="POST">
+        {% csrf_token %}
+        <input
+          type="url"
+          name="orignal_url"
+          placeholder="Enter URL to shorten"
+          required
+        />
+        <button type="submit">Shorten</button>
+      </form>
+      <form action="{% url 'show_stats' %}" method="POST">
+        {% csrf_token %}
+        <input
+          type="url"
+          name="short_url"
+          placeholder="Enter URL to shorten"
+          required
+        />
+        <button type="submit">Show Stats of Shorten URL</button>
+      </form>
+      {% if short_url %}
+      <div class="shortened-url">
+        <p>
+          Shortened URL:
+          <a href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+        </p>
+      </div>
+      {% endif %} 
+      {% if stats %}
+      <div class="shortened-url">
+        <p>Short URL Stats:</p>
+        <p>Original URL: {{ stats.url }}</p>
+        <p>Short Code: {{ stats.shortCode }}</p>
+        <p>Access Count: {{ stats.access_count }}</p>
+        <p>Created At: {{ stats.created_at }}</p>
+      </div>
+      {% else %}
+        <p>No stats available.</p>
+      {% endif %}
+    </div>
+  </body>
 </html>

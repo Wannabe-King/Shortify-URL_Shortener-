@@ -50,3 +50,11 @@ def redirect_to_original_url(request,short_url):
     result.access_count=result.access_count + 1 if result.access_count else 1
     result.save()
     return redirect(result.url)
+
+
+def show_stats(request):
+    if request.method=="POST":
+        short_url=request.POST.get('short_url')
+        print("short url is",short_url)
+        result=URL.objects.filter(shortCode=short_url.split('/')[-1]).first()
+        return render(request,'index.html',{'stats':result})
